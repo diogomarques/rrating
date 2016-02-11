@@ -1,7 +1,9 @@
 source("R/rrating.R")
 n = 1000
+mean = 3
+mean = 4
 mean = 2.1
-sd = 2
+sd = 1
 scale.from = 1
 scale.to = 5
 shift.to.mean = "none"

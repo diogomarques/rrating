@@ -3,6 +3,8 @@
 rrating = function(n, mean = 3, scale.from = 1, scale.to = 5,
                    sd.norm = 1, shift.to.mean = "none") {
 
+  # TODO: default SD according to scale range
+
   # generate distribution, rounded to units
   dist = round(rnorm(n, mean = mean, sd = sd), digits = 0)
 
@@ -23,7 +25,6 @@ rrating = function(n, mean = 3, scale.from = 1, scale.to = 5,
 
 
   # shift the distribution to one extreme w/ O(n) random shifts algorithm
-  # TODO: test alternatives: round-robin algorithm, iterative random
   if(shift.to.mean == "quick") {
 
     # calculte how many shifts are needed
@@ -54,6 +55,8 @@ rrating = function(n, mean = 3, scale.from = 1, scale.to = 5,
 
     return(bounded)
   }
+
+  # TODO: test alternatives: round-robin algorithm, iterative random
 }
 
 
