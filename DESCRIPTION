@@ -1,10 +1,13 @@
 Package: rrating
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Simulate Likert-like Item Responses
 Version: 0.1
 Date: 2016-02-11
-Author: Who wrote it
+Author: Diogo Marques
 Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Description: Random generation of approximately normally distributed responses
+    to Likert-type rating items in surveys
+License: I don't care.
+URL: http://diogomarques.net
 LazyData: TRUE
+RoxygenNote: 5.0.1
