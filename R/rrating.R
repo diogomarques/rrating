@@ -42,12 +42,7 @@ rrating = function(n, mean = 3, scale.from = 1, scale.to = 5,
   dist = round(rnorm(n, mean = mean, sd = sd), digits = 0)
 
   # calculate breaks for normal distribution
-  # TODO: break end points should take sd into consideration
-  scale.range = scale.to - scale.from + 1
-  lower.break = scale.from - 1000 * scale.range
-  upper.break = scale.to + 1000 * scale.range
-  breaks = c(lower.break, scale.from : (scale.to - 1), upper.break)
-  breaks
+  breaks = c(-Inf, scale.from : (scale.to - 1), +Inf)
 
   # remove extremes from distribution
   bounded = as.numeric(cut(dist, breaks = breaks, labels = c(scale.from:scale.to)))

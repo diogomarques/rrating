@@ -9,11 +9,15 @@ scale.to = 5
 shift.to.mean = "none"
 shift.to.mean = "quick"
 
-par(mfrow=c(2,2))
+par(mfrow=c(2,1))
 
-responses.none = rrating(n = n, mean = mean, scale.from = 1, scale.to = 5, sd.norm = sd, shift.to.mean = shift.to.mean)
+responses.none = rrating(n = n, mean = mean, scale.from = 1, scale.to = 5, sd.norm = sd, shift.to.mean = "none")
 plot(table(responses.none))
 mean(responses.none)
 sd(responses.none)
-table(responses.none)
+
+responses.quick = rrating(n = n, mean = mean, scale.from = 1, scale.to = 5, sd.norm = sd, shift.to.mean = "quick")
+plot(table(responses.quick))
+mean(responses.quick)
+sd(responses.quick)
 
