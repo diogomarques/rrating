@@ -2,10 +2,7 @@ source("R/rrating.R")
 
 # set params
 n = 1000
-mean = 3.5
-mean = 2.5
-mean = 2
-sd = 10/5
+mean = 8
 scale.from = 1
 scale.to = 10
 shift.to.mean = "none"
@@ -13,10 +10,10 @@ shift.to.mean = "quick"
 
 # generate distributions
 responses.none = rrating(n = n, mean = mean, scale.from = scale.from,
-                         scale.to = scale.to, sd.norm = sd,
+                         scale.to = scale.to,
                          shift.to.mean = "none")
 responses.quick = rrating(n = n, mean = mean, scale.from = scale.from,
-                          scale.to = scale.to, sd.norm = sd,
+                          scale.to = scale.to,
                           shift.to.mean = "quick")
 # compare
 mean(responses.none)
@@ -37,3 +34,4 @@ axis(3, at = mean(responses.none), label = "", lwd = 3)
 points(table.responses.quick, col = "red")
 abline(v = mean(responses.quick), lty = 2, col = "red")
 axis(3, at = mean(responses.quick), label = "", col = "red", lwd = 3)
+

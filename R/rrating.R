@@ -34,7 +34,7 @@
 #'
 #'
 #'
-rrating = function(n, mean = 3, scale.from = 1, scale.to = 5,
+rrating = function(n, mean, scale.from, scale.to,
                    sd.norm = (scale.to - scale.from + 1) / 5, mean.norm = mean,
                    shift.to.mean = "none") {
 
@@ -51,36 +51,23 @@ rrating = function(n, mean = 3, scale.from = 1, scale.to = 5,
   if(shift.to.mean == "none")
     return(bounded)
 
-
   # shift the distribution to one extreme w/ O(n) random shifts algorithm
   if(shift.to.mean == "quick") {
 
     # calculte how many shifts are needed
     shifts.left = round((mean - mean(bounded)) * n)
 
-    # TODO: tidy up into single cycle
-    while(shifts.left > 0) { # shift up
-      # sample as many observations as possible at each round
-      observations.not.at.top.end = length(which(bounded != scale.to))
-      n.to.shift = min(shifts.left, observations.not.at.top.end)
+    while(shifts.left != 0) {
+      # how many observations can be shifted in this round?
+      n.shiftable = sum(bounded != ifelse(shifts.left < 0, scale.from, scale.to))
+      shifts.this.round = min(abs(shifts.left), n.shiftable)
       # shift
-      observations.to.shift = sample(which(bounded != scale.to), n.to.shift)
-      bounded[observations.to.shift] = bounded[observations.to.shift] + 1
+      to.shift = sample(which(bounded != ifelse(shifts.left < 0, scale.from, scale.to)),
+                        shifts.this.round)
+      bounded[to.shift] = ifelse(shifts.left < 0, bounded[to.shift] - 1, bounded[to.shift] + 1)
       # recalculate n of shifts left
-      shifts.left = round((mean - mean(bounded)) * n)
+      shifts.left = abs(shifts.left) - shifts.this.round
     }
-
-    while(shifts.left < 0) { # shift down
-      # sample as many observations as possible at each round
-      observations.not.at.bottom.end = length(which(bounded != scale.from))
-      n.to.shift = min(abs(shifts.left), observations.not.at.bottom.end)
-      # shift
-      observations.to.shift = sample(which(bounded != scale.from), n.to.shift)
-      bounded[observations.to.shift] = bounded[observations.to.shift] - 1
-      # recalculate n of shifts left
-      shifts.left = round((mean - mean(bounded)) * n)
-    }
-
     return(bounded)
   }
 
