@@ -1,13 +1,15 @@
-#' Simulate Likert-like Item Responses
+#' Simulate Rating Scale Data
 #'
-#' Generates random distributions of answers to Likert-type items
-#' answered on a numeric (integer) scale.
+#' Generates random answers to rating scales in surveys, that approximate a
+#' normal distribution.
 #'
 #'
 #' @param n number of observations.
-#' @param mean mean of the normal distribution to be approximated.
+#' @param mean mean of observations (actual mean will not coincide if
+#' \code{shift.to.mean}) is set to "none".
 #' @param scale.from bottom-end of the possible values in scale.
 #' @param scale.to top-end of the possible values in scale.
+#' @param mean.norm mean of the normal distribution to be approximated.
 #' @param sd.norm standard deviation of the normal distribution to be
 #' approximated.
 #' @param shift.to.mean if set to "none", the mean of observations will
@@ -33,13 +35,11 @@
 #'
 #'
 rrating = function(n, mean = 3, scale.from = 1, scale.to = 5,
-                   sd.norm = 1, shift.to.mean = "none") {
-
-  # TODO: default SD according to scale range
-  sd = sd.norm
+                   sd.norm = (scale.to - scale.from + 1) / 5, mean.norm = mean,
+                   shift.to.mean = "none") {
 
   # generate distribution, rounded to units
-  dist = round(rnorm(n, mean = mean, sd = sd), digits = 0)
+  dist = round(rnorm(n, mean = mean.norm, sd = sd.norm), digits = 0)
 
   # calculate breaks for normal distribution
   breaks = c(-Inf, scale.from : (scale.to - 1), +Inf)
