@@ -51,8 +51,8 @@ rrating = function(n, mean, scale.from, scale.to,
   if(shift.to.mean == "none")
     return(bounded)
 
-  # shift the distribution to one extreme w/ O(n) random shifts algorithm
-  if(shift.to.mean == "quick") {
+  # sample and shift as many observations as possible at each round
+  else if(shift.to.mean == "quick") {
 
     # calculte how many shifts are needed
     shifts.left = round((mean - mean(bounded)) * n)
@@ -71,7 +71,18 @@ rrating = function(n, mean, scale.from, scale.to,
     return(bounded)
   }
 
-  # TODO: test alternatives: round-robin algorithm, iterative random
+   # sample and shift one observation at each round
+  else if(shift.to.mean == "iterative") {
+    # calculte how many shifts are needed
+    shifts.left = round((mean - mean(bounded)) * n)
+    for (i in 1:abs(shifts.left)) {
+      to.shift = sample(which(bounded != ifelse(shifts.left < 0, scale.from, scale.to)), 1)
+      bounded[to.shift] = ifelse(shifts.left < 0, bounded[to.shift] - 1, bounded[to.shift] + 1)
+    }
+    return(bounded)
+  }
+  else
+    return(NULL)
 }
 
 
